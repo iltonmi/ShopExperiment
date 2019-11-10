@@ -39,12 +39,18 @@ public class Basket {
 
         BasketItem item = findBasketItemWithProduct(product);
 
-        if(item == null) {
-            item = new BasketItem(product, quantity);
-            items.add(item);
-        }
-        else {
-            item.increaseQuantity(quantity);
+        //fix bug by adding try-catch block
+        try {
+            if(item == null) {
+                item = new BasketItem(product, quantity);
+                items.add(item);
+            }
+            else {
+                item.increaseQuantity(quantity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
 
         return true;
@@ -59,9 +65,9 @@ public class Basket {
      */
     public boolean removeAllProductItems(Product product) {
         if(!addItemsEnabled) {
-
+            //fix bug by adding "return false;" statement
+            return false;
         }
-        //remove ?? it just remove 1 item at most actually.
         BasketItem item = findBasketItemWithProduct(product);
 
         if(item == null) {
@@ -80,18 +86,24 @@ public class Basket {
      * Otherwise, false.
      */
     public boolean removeSomeProductItems(Product product, int quantity) {
-        //...actually, you just reduce the quantity of a product...but not an item.
         if(!addItemsEnabled) {
             return false;
         }
         //**why not check the amount of item after decreasing
         BasketItem item = findBasketItemWithProduct(product);
 
-        if(item != null) {
+        //fix bug by change the unequal sign to equal sign
+        if(item == null || item.getQuantity() < quantity) {
             return false;
         }
 
-        item.decreaseQuantity(quantity);
+        //fix bug by adding try-catch block
+        try {
+            item.decreaseQuantity(quantity);
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
         return true;
     }
 

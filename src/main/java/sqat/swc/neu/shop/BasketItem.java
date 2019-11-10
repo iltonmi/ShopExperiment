@@ -67,7 +67,8 @@ public class BasketItem {
      * @throws IllegalArgumentException if the quantity is less than 1.
      */
     public void decreaseQuantity(int quantity) {
-        if(quantity <= 1) {
+        //fix bug by remove equal
+        if(quantity < 1) {
             throw new IllegalArgumentException("The quantity to remove should be 1 or more");
         }
 
