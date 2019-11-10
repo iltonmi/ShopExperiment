@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sqat.swc.neu.shop.Basket;
 import sqat.swc.neu.shop.Discount;
+import sqat.swc.neu.shop.PaymentResult;
 import sqat.swc.neu.shop.Product;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -279,7 +280,30 @@ public class TestBasket {
     }
 
     @Test
-    void testPay() {
+    public void testPay_PayOnce_WithUnSufficientAmount() {
+        testGetTotal_WithAnyDiscount();
+        PaymentResult result = basket.pay(0);
+        assertFalse(result.isSuccess());
+        PaymentResult secondResult = basket.pay(-1);
+        assertFalse(secondResult.isSuccess());
+    }
 
+    @Test
+    public void testPay_PayOnce_WithSufficientAmount() {
+        testGetTotal_WithAnyDiscount();
+        PaymentResult result = basket.pay(4);
+        assertEquals(1, result.getChange());
+        assertTrue(result.isSuccess());
+    }
+
+    @Test
+    public void testPay_PayForTheSameBasketMoreThanOnce() {
+        testPay_PayOnce_WithSufficientAmount();
+        PaymentResult secondResult = basket.pay(4);
+        assertFalse(secondResult.isSuccess());
+        PaymentResult thirdResult = basket.pay(0);
+        assertFalse(thirdResult.isSuccess());
+        PaymentResult fourthResult = basket.pay(-1);
+        assertFalse(fourthResult.isSuccess());
     }
 }
