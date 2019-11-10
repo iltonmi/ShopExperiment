@@ -137,6 +137,7 @@ public class Basket {
         int total = 0;
 
         for(BasketItem item: items) {
+            //fix the bug by change the price before discounted of current item to price * quantity.
             total += item.getPrice();
 
             Discount foundDiscount = null;
@@ -148,16 +149,16 @@ public class Basket {
             }
             int priceDiscount = 0;
             if(foundDiscount != null) {
-                //what if the discount quantity is bigger...
                if(item.getQuantity() >= foundDiscount.getQuantityForDiscount()) {
                    priceDiscount = item.getProduct().getPrice() *
                                        foundDiscount.getPriceMultiplier();
                }
             }
 
-            //kiding me? It must be multiplication but not an addition
+            //fix bug by change the way to minus discounted value
             if(priceDiscount <= total) {
-                total -= priceDiscount + item.getQuantity();
+//                total -= priceDiscount + item.getQuantity();
+                total -= priceDiscount;
             }
         }
 

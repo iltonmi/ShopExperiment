@@ -3,6 +3,7 @@ package sqat.swc.neu;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sqat.swc.neu.shop.Basket;
+import sqat.swc.neu.shop.Discount;
 import sqat.swc.neu.shop.Product;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -252,13 +253,29 @@ public class TestBasket {
     }
 
     @Test
-    void testAddDiscount() {
+    void testAddDiscount_AddNull() {
+        assertThrows(NullPointerException.class, () -> basket.addDiscount(null));
+    }
 
+    /**
+     * Bug was found!
+     * Get the total price of the basket.
+     * {@link org.opentest4j.AssertionFailedError} was thrown because
+     * the actual return value is 1 while the expected value is 3.
+     */
+    @Test
+    public void testGetTotal_WithoutDiscount(){
+        basket.addProduct(product, 1);
+        basket.addProduct(product2, 1);
+        assertEquals(3, basket.getTotal());
     }
 
     @Test
-    public void testGetTotal(){
-
+    public void testGetTotal_WithAnyDiscount(){
+        basket.addProduct(product, 2);
+        basket.addProduct(product2, 1);
+        basket.addDiscount(new Discount("product1 discount", product, 2, 1));
+        assertEquals((1 * 2 + 2) - 1, basket.getTotal());
     }
 
     @Test
