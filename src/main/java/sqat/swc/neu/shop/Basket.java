@@ -195,4 +195,12 @@ public class Basket {
         //what would happen in getTotal() if there are 2 discounts of the same product
         discounts.add(discount);
     }
+
+    public int getNumberOfItems() {
+        return items.size();
+    }
+
+    public int getNumberOfDiscounts() {
+        return discounts.size();
+    }
 }
