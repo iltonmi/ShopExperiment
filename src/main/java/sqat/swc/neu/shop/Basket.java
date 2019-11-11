@@ -133,37 +133,36 @@ public class Basket {
      *
      * @return The total for all products in the basket - the total of any discounts.
      */
-    public int getTotal() {
+    public int getTotal() {//A0
         int total = 0;
 
-        for(BasketItem item: items) {
-            //fix the bug by change the price before discounted of current item to price * quantity.
+        for(BasketItem item: items) {//A1
             total += item.getPrice();
 
             Discount foundDiscount = null;
-            for(Discount discount : discounts) {
+            for(Discount discount : discounts) {//A2
                 //only choose one discount that is latest added
-                if(discount.getProduct().equals(item.getProduct())) {
+                if(discount.getProduct().equals(item.getProduct())) {//A3
                     foundDiscount = discount;
                 }
             }
             int priceDiscount = 0;
-            if(foundDiscount != null) {
-               if(item.getQuantity() >= foundDiscount.getQuantityForDiscount()) {
+            if(foundDiscount != null) {//A4
+               if(item.getQuantity() >= foundDiscount.getQuantityForDiscount()) {//A5
                    priceDiscount = item.getProduct().getPrice() *
                                        foundDiscount.getPriceMultiplier();
                }
             }
 
             //fix bug by change the way to minus discounted value
-            if(priceDiscount <= total) {
+            if(priceDiscount <= total) {//A6
 //                total -= priceDiscount + item.getQuantity();
                 total -= priceDiscount;
             }
         }
 
         return total;
-    }
+    }//A7
 
     /**
      * Pay for this basket. The amount should be equal to or greater than
