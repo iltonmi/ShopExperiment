@@ -175,7 +175,7 @@ public class TestBasket {
 
     /**
      * Bug was found!
-     * Removing some amount of a product already exist from the basket, {@code false} should be returned.
+     * Removing 0 amount of a product already exist from the basket, {@code false} should be returned.
      * But a {@link IllegalArgumentException} was thrown with message:
      * "The quantity to remove should be 1 or more".
      */
@@ -189,7 +189,7 @@ public class TestBasket {
 
     /**
      * Bug was found!
-     * Removing some amount of a product already exist from the basket, {@code false} should be returned.
+     * Removing negative amount of a product already exist from the basket, {@code false} should be returned.
      * But a {@link IllegalArgumentException} was thrown with message:
      * "The quantity to remove should be 1 or more".
      */
@@ -203,8 +203,7 @@ public class TestBasket {
 
     /**
      * Bug was found!
-     * Removing some amount of a product already exist from the basket, {@code false} should be returned
-     * because the removed amount is less than the exist amount.
+     * The removed amount is less than the exist amount, {@code false} should be returned.
      * But a {@link org.opentest4j.AssertionFailedError} was thrown because the actual return value is {@code true}.
      */
     @Test
